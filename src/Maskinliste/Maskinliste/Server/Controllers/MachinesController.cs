@@ -1,4 +1,6 @@
-﻿namespace Maskinliste.Server.Controllers
+﻿using Maskinliste.Shared.InputModels;
+
+namespace Maskinliste.Server.Controllers
 {
     
     using Maskinliste.Server.Services;
@@ -54,27 +56,27 @@
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<int>> Create(string name, string details, string userId)
+        public async Task<ActionResult<int>> Create(MachineCreateInputModel model)
         {
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(userId))
+            if (string.IsNullOrWhiteSpace(model.Name) || string.IsNullOrWhiteSpace(model.ApplicationUserId))
             {
                 return this.BadRequest();
             }
 
-            var machineId = await this.service.CreateMachineAsync(name, details, userId);
+            var machineId = await this.service.CreateMachineAsync(model.Name, model.Details, model.ApplicationUserId);
 
             return machineId;
         }
 
         [HttpPost("update")]
-        public async Task<IActionResult> Update(int machineId, string name, string details)
+        public async Task<IActionResult> Update(MachineUpdateInputModel model)
         {
-            if (machineId <= 0 || string.IsNullOrWhiteSpace(name))
+            if (model.Id <= 0 || string.IsNullOrWhiteSpace(model.Name))
             {
                 return this.BadRequest();
             }
 
-            var successfulUpdate = await this.service.UpdateMachineAsync(machineId, name, details);
+            var successfulUpdate = await this.service.UpdateMachineAsync(model.Id, model.Name, model.Details);
             if (!successfulUpdate)
             {
                 return this.NotFound();

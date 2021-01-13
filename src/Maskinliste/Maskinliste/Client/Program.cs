@@ -1,16 +1,15 @@
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Maskinliste.Client
 {
+    using Maskinliste.Client.Infrastructure;
+
+    using System;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+    using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+    using Microsoft.Extensions.DependencyInjection;
+
     public class Program
     {
         public static async Task Main(string[] args)
@@ -25,6 +24,8 @@ namespace Maskinliste.Client
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Maskinliste.ServerAPI"));
 
             builder.Services.AddApiAuthorization();
+
+            builder.Services.AddTransient<IApiClient, ApiClient>();
 
             await builder.Build().RunAsync();
         }
