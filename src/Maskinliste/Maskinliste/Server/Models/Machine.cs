@@ -10,6 +10,8 @@
         [Required] 
         public string Name { get; set; }
 
+        public string Details { get; set; }
+
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
 
