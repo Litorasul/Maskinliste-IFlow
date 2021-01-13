@@ -36,12 +36,14 @@
        /// <param name="machineId">The Id of the Machine.</param>
        /// <param name="name">The New name for the Machine.</param>
        /// <param name="details">The New details for the Machine.</param>
-       Task UpdateMachineAsync(int machineId, string name, string details);
+       /// <returns>If Update was successful.</returns>
+       Task<bool> UpdateMachineAsync(int machineId, string name, string details);
 
        /// <summary>
        /// Delete a Machine.
        /// </summary>
        /// <param name="machineId">The Id of the Machine.</param>
-       Task DeleteMachineAsync(int machineId);
+       /// <returns>If Delete was successful.</returns>
+       Task<bool> DeleteMachineAsync(int machineId);
     }
 }

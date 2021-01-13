@@ -1,3 +1,5 @@
+using Maskinliste.Server.Services;
+
 namespace Maskinliste.Server
 {
     using Maskinliste.Server.Data;
@@ -41,6 +43,9 @@ namespace Maskinliste.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            //Register Services
+            services.AddTransient<IMachineService, MachineService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +56,7 @@ namespace Maskinliste.Server
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 dbContext.Database.Migrate();
             }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

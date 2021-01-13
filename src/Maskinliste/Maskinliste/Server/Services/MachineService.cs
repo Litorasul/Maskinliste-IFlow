@@ -3,7 +3,6 @@
     using Maskinliste.Server.Data;
     using Maskinliste.Shared.ViewModels;
     using Maskinliste.Server.Models;
-    using Maskinliste.Shared.Mapping;
 
     using System.Linq;
     using System.Collections.Generic;
@@ -25,7 +24,11 @@
             return this.dbContext
                 .Machines
                 .Where(x => x.ApplicationUserId == userId)
-                .To<MachineViewModel>()
+                .Select(x => new MachineViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                })
                 .ToList();
         }
 
@@ -34,7 +37,12 @@
             return this.dbContext
                 .Machines
                 .Where(x => x.Id == machineId)
-                .To<MachineDetailsViewModel>()
+                .Select(x => new MachineDetailsViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Details = x.Details
+                })
                 .FirstOrDefault();
         }
 
@@ -53,7 +61,7 @@
             return machine.Id;
         }
 
-        public async Task UpdateMachineAsync(int machineId, string name, string details)
+        public async Task<bool> UpdateMachineAsync(int machineId, string name, string details)
         {
             var machine = await this.dbContext
                 .Machines
@@ -64,10 +72,16 @@
                 machine.Name = name;
                 machine.Details = details;
             }
+            else
+            {
+                return false;
+            }
 
             await this.dbContext.SaveChangesAsync();
+
+            return true;
         }
-        public async Task DeleteMachineAsync(int machineId)
+        public async Task<bool> DeleteMachineAsync(int machineId)
         {
             var machine = await this.dbContext
                 .Machines
@@ -77,8 +91,14 @@
             {
                 this.dbContext.Machines.Remove(machine);
             }
+            else
+            {
+                return false;
+            }
 
             await this.dbContext.SaveChangesAsync();
+
+            return true;
         }
     }
 }
