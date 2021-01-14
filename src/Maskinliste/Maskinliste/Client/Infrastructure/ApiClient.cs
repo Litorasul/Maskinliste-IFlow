@@ -34,21 +34,22 @@
         public async Task<int> CreateMachineAsync(MachineCreateInputModel model)
         {
             var response = await this.httpClient
-                .PostAsJsonAsync("/api/Machine/create", model);
+                .PostAsJsonAsync("/api/Machines/create", model);
 
-            return await response.Content.ReadFromJsonAsync<int>();
+            var id = await response.Content.ReadFromJsonAsync<int>();
+            return id;
         }
 
         public async Task UpdateMachineAsync(MachineUpdateInputModel model)
         {
             await this.httpClient
-                .PostAsJsonAsync("/api/Machine/update", model);
+                .PostAsJsonAsync("/api/Machines/update", model);
         }
 
         public async Task DeleteMachineAsync(int machineId)
         {
             await this.httpClient
-                .PostAsJsonAsync("/api/Machine/delete", machineId);
+                .PostAsJsonAsync("/api/Machines/delete", machineId);
         }
     }
 }

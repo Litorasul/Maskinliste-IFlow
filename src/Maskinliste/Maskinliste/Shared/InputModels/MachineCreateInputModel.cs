@@ -9,7 +9,6 @@
 
         public string Details { get; set; }
 
-        [Required]
         public string ApplicationUserName { get; set; }
     }
 }

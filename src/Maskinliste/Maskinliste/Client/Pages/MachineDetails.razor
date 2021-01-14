@@ -1,0 +1,36 @@
+﻿@page "/details/{id}"
+@using Maskinliste.Shared.ViewModels
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Maskinliste.Client.Infrastructure
+@inject IApiClient Api
+
+<h3>MachineDetails</h3>
+@if (machine == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>@machine.Name</h1>
+    <p>@machine.Details</p>
+}
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    private MachineDetailsViewModel machine;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            this.machine = await this.Api.GetMachineDetailsAsync(int.Parse(Id));
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+}
