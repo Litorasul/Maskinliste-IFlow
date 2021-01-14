@@ -3,6 +3,7 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Maskinliste.Client.Infrastructure
 @inject IApiClient Api
+@inject NavigationManager NavigationManager
 
 <h3>MachineDetails</h3>
 @if (machine == null)
@@ -13,6 +14,7 @@ else
 {
     <h1>@machine.Name</h1>
     <p>@machine.Details</p>
+    <button class="btn btn-dark" @onclick="Delete">Delete Machine</button>
 }
 
 @code {
@@ -33,4 +35,9 @@ else
         }
     }
 
+    private async void Delete()
+    {
+        await this.Api.DeleteMachineAsync(int.Parse(Id));
+        this.NavigationManager.NavigateTo("/");
+    }
 }

@@ -86,7 +86,7 @@ namespace Maskinliste.Server.Controllers
         }
 
         [HttpPost("delete")]
-        public async Task<ActionResult> Delete(int machineId)
+        public async Task<ActionResult> Delete([FromBody]int machineId)
         {
             if (machineId <= 0)
             {
