@@ -1,0 +1,48 @@
+﻿@using Maskinliste.Client.Infrastructure
+@using Maskinliste.Shared.ViewModels
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject IApiClient Api
+
+<h3>Machine List</h3>
+<AuthorizeView>
+    
+    <Authorized>
+       
+        @if (machines == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <ul>
+                @foreach (var machine in machines)
+                {
+                    <li><a href="#">@machine.Name</a></li>
+                }
+            </ul>
+        }
+    </Authorized>
+</AuthorizeView>
+
+@code {
+
+    private IList<MachineViewModel> machines;
+    private string? user;
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthenticationStateTask { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var authState = await AuthenticationStateTask;
+            this.user = authState.User.Identity.Name;
+            this.machines = await this.Api.GetAllMachinesPerUserAsync(this.user);
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+}

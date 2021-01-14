@@ -10,9 +10,9 @@
         /// <summary>
         /// Get all Machines created by certain User.
         /// </summary>
-        /// <param name="userId">The Id of the User.</param>
+        /// <param name="userName">The User Name of the User.</param>
         /// <returns>List of Machine View Models</returns>
-        List<MachineViewModel> GetAllMachinesPerUser(string userId);
+        List<MachineViewModel> GetAllMachinesPerUser(string userName);
 
         /// <summary>
         /// Get all the details for a certain Machine.
@@ -26,9 +26,9 @@
        /// </summary>
        /// <param name="name">The Name of the Machine</param>
        /// <param name="details">The Details for the Machine.</param>
-       /// <param name="userId">The Id of the User who creates the Machine.</param>
+       /// <param name="userName">The User Name of the User who creates the Machine.</param>
        /// <returns>The Id of the newly created Machine.</returns>
-        Task<int> CreateMachineAsync(string name, string details, string userId);
+        Task<int> CreateMachineAsync(string name, string details, string userName);
 
        /// <summary>
        /// Update a Machine, that already exists. 

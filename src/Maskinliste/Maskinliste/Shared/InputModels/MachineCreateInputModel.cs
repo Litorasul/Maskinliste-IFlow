@@ -10,6 +10,6 @@
         public string Details { get; set; }
 
         [Required]
-        public string ApplicationUserId { get; set; }
+        public string ApplicationUserName { get; set; }
     }
 }

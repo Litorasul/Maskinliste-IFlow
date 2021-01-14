@@ -1,9 +1,8 @@
-using Maskinliste.Server.Services;
-
 namespace Maskinliste.Server
 {
     using Maskinliste.Server.Data;
     using Maskinliste.Server.Models;
+    using Maskinliste.Server.Services;
 
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Builder;
@@ -43,6 +42,8 @@ namespace Maskinliste.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddHttpContextAccessor();
 
             //Register Services
             services.AddTransient<IMachineService, MachineService>();

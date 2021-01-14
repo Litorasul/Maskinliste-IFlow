@@ -25,14 +25,14 @@ namespace Maskinliste.Server.Controllers
         }
 
         [HttpGet("all")]
-        public ActionResult<List<MachineViewModel>> GetAll(string userId)
+        public ActionResult<List<MachineViewModel>> GetAll(string userName)
         {
-            if (string.IsNullOrWhiteSpace(userId))
+            if (string.IsNullOrWhiteSpace(userName))
             {
                 return this.BadRequest();
             }
 
-            var machines = this.service.GetAllMachinesPerUser(userId);
+            var machines = this.service.GetAllMachinesPerUser(userName);
 
             return machines;
         }
@@ -58,12 +58,12 @@ namespace Maskinliste.Server.Controllers
         [HttpPost("create")]
         public async Task<ActionResult<int>> Create(MachineCreateInputModel model)
         {
-            if (string.IsNullOrWhiteSpace(model.Name) || string.IsNullOrWhiteSpace(model.ApplicationUserId))
+            if (string.IsNullOrWhiteSpace(model.Name) || string.IsNullOrWhiteSpace(model.ApplicationUserName))
             {
                 return this.BadRequest();
             }
 
-            var machineId = await this.service.CreateMachineAsync(model.Name, model.Details, model.ApplicationUserId);
+            var machineId = await this.service.CreateMachineAsync(model.Name, model.Details, model.ApplicationUserName);
 
             return machineId;
         }

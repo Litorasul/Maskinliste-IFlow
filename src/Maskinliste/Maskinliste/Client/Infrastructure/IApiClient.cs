@@ -11,9 +11,9 @@
         /// <summary>
         /// Get all Machines created by certain User.
         /// </summary>
-        /// <param name="userId">The Id of the User.</param>
+        /// <param name="userName">The User Name of the User.</param>
         /// <returns>List of Machine View Models</returns>
-        Task<IList<MachineViewModel>> GetAllMachinesPerUserAsync(string userId);
+        Task<IList<MachineViewModel>> GetAllMachinesPerUserAsync(string userName);
 
         /// <summary>
         /// Get all the details for a certain Machine.

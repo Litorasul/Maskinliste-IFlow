@@ -19,11 +19,11 @@
             this.dbContext = dbContext;
         }
 
-        public List<MachineViewModel> GetAllMachinesPerUser(string userId)
+        public List<MachineViewModel> GetAllMachinesPerUser(string userName)
         {
             return this.dbContext
                 .Machines
-                .Where(x => x.ApplicationUserId == userId)
+                .Where(x => x.ApplicationUser.UserName == userName)
                 .Select(x => new MachineViewModel
                 {
                     Id = x.Id,
@@ -46,13 +46,14 @@
                 .FirstOrDefault();
         }
 
-        public async Task<int> CreateMachineAsync(string name, string details, string userId)
+        public async Task<int> CreateMachineAsync(string name, string details, string userName)
         {
+            var user = this.dbContext.Users.FirstOrDefault(x => x.UserName == userName);
             var machine = new Machine
             {
                 Name = name,
                 Details = details,
-                ApplicationUserId = userId
+                ApplicationUserId = user.Id
             };
 
             await this.dbContext.Machines.AddAsync(machine);

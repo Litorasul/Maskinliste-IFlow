@@ -16,10 +16,10 @@
         {
             this.httpClient = httpClient;
         }
-        public async Task<IList<MachineViewModel>> GetAllMachinesPerUserAsync(string userId)
+        public async Task<IList<MachineViewModel>> GetAllMachinesPerUserAsync(string userName)
         {
             var machines = await this.httpClient
-                .GetFromJsonAsync<IList<MachineViewModel>>($"/api/Machines/all?userId={userId}");
+                .GetFromJsonAsync<IList<MachineViewModel>>($"/api/Machines/all?userName={userName}");
             return machines;
         }
 

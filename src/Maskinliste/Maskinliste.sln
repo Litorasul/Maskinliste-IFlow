@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maskinliste.Server", "Maskinliste\Server\Maskinliste.Server.csproj", "{1C1A18E5-5C2D-45CC-9271-46F96B21A445}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maskinliste.Server", "Maskinliste\Server\Maskinliste.Server.csproj", "{1C1A18E5-5C2D-45CC-9271-46F96B21A445}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maskinliste.Client", "Maskinliste\Client\Maskinliste.Client.csproj", "{06C27F10-A2AF-435C-BA26-F51741ACDA49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maskinliste.Client", "Maskinliste\Client\Maskinliste.Client.csproj", "{06C27F10-A2AF-435C-BA26-F51741ACDA49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maskinliste.Shared", "Maskinliste\Shared\Maskinliste.Shared.csproj", "{EE3FB12C-B297-4641-AE90-BDFC282B7706}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maskinliste.Shared", "Maskinliste\Shared\Maskinliste.Shared.csproj", "{EE3FB12C-B297-4641-AE90-BDFC282B7706}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
