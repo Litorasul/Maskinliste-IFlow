@@ -33,7 +33,7 @@
 
     protected override void OnInitialized()
     {
-        editContext = new EditContext(model);
+        this.editContext = new EditContext(model);
     }
 
     private async void HandleValidSubmit()
@@ -48,9 +48,6 @@
             var machineId = await this.Api.CreateMachineAsync(model);
             this.NavigationManager.NavigateTo($"/details/{machineId}");
         }
-        else
-        {
-            throw new InvalidOperationException();
-        }
+       
     }
 }

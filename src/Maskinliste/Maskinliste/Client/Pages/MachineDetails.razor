@@ -2,6 +2,7 @@
 @using Maskinliste.Shared.ViewModels
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Maskinliste.Client.Infrastructure
+@using Maskinliste.Shared.InputModels
 @inject IApiClient Api
 @inject NavigationManager NavigationManager
 
@@ -10,11 +11,32 @@
 {
     <p><em>Loading...</em></p>
 }
+else if (toUpdate)
+{
+    <EditForm Model="@model" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <p>
+            <label>
+                Machine Name:
+                <InputText @bind-Value="model.Name" />
+            </label>
+        </p>
+        <p>
+            <label>
+                Machine Details:
+                <InputTextArea @bind-Value="model.Details" />
+            </label>
+        </p>
+        <button class="btn btn-dark" type="submit">Submit</button>
+    </EditForm>
+}
 else
 {
     <h1>@machine.Name</h1>
     <p>@machine.Details</p>
-    <button class="btn btn-dark" @onclick="Delete">Delete Machine</button>
+    <button class="btn btn-dark" @onclick="ToUpdate">Update</button>
+    <button class="btn btn-danger" @onclick="Delete">Delete Machine</button>
 }
 
 @code {
@@ -22,16 +44,41 @@ else
     public string Id { get; set; }
 
     private MachineDetailsViewModel machine;
+    private MachineUpdateInputModel model = new MachineUpdateInputModel();
+    private EditContext editContext;
+
+    private bool toUpdate = false;
 
     protected override async Task OnInitializedAsync()
     {
+        this.editContext = new EditContext(model);
+        
         try
         {
             this.machine = await this.Api.GetMachineDetailsAsync(int.Parse(Id));
+            this.model.Id = int.Parse(this.Id);
+            this.model.Name = this.machine.Name;
+            this.model.Details = this.machine.Details;
         }
         catch (AccessTokenNotAvailableException exception)
         {
             exception.Redirect();
+        }
+    }
+
+    private void ToUpdate()
+    {
+        this.toUpdate = true;
+    }
+
+    private async void HandleValidSubmit()
+    {
+        var isValid = editContext.Validate();
+        this.model.Id = int.Parse(this.Id);
+        if (isValid)
+        {
+            await this.Api.UpdateMachineAsync(this.model);
+            this.NavigationManager.NavigateTo(this.NavigationManager.Uri, forceLoad:true);
         }
     }
 
