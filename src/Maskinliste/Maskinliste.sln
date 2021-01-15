@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maskinliste.Client", "Maski
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maskinliste.Shared", "Maskinliste\Shared\Maskinliste.Shared.csproj", "{EE3FB12C-B297-4641-AE90-BDFC282B7706}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maskinliste.Tests", "Tests\Maskinliste.Tests.csproj", "{824A8E2D-D893-4ECD-8E1C-F80DAC22BEF6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{EE3FB12C-B297-4641-AE90-BDFC282B7706}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE3FB12C-B297-4641-AE90-BDFC282B7706}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE3FB12C-B297-4641-AE90-BDFC282B7706}.Release|Any CPU.Build.0 = Release|Any CPU
+		{824A8E2D-D893-4ECD-8E1C-F80DAC22BEF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{824A8E2D-D893-4ECD-8E1C-F80DAC22BEF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{824A8E2D-D893-4ECD-8E1C-F80DAC22BEF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{824A8E2D-D893-4ECD-8E1C-F80DAC22BEF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

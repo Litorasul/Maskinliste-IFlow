@@ -1,7 +1,9 @@
 ﻿namespace Maskinliste.Server.Data
 {
     using IdentityServer4.EntityFramework.Options;
+
     using Maskinliste.Server.Models;
+
     using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
