@@ -4,13 +4,15 @@
 @inject IApiClient Api
 @inject NavigationManager NavigationManager
 
-<h3>Create</h3>
-
-<EditForm Model="@model" OnValidSubmit="@HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <p>
-        <label>
+<div class="header">
+    <h3>Create Machine</h3>
+</div>
+<div class="content">
+    <EditForm Model="@model" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <p>
+            <label>
             Machine Name:
             <InputText @bind-Value="model.Name" />
         </label>
@@ -23,31 +25,32 @@
     </p>
     <button class="btn btn-dark" type="submit">Submit</button>
 </EditForm>
+</div>
 
-@code {
-    private MachineCreateInputModel model = new MachineCreateInputModel();
-    private EditContext editContext;
-    private string? userName;
-    [CascadingParameter]
-    private Task<AuthenticationState> AuthenticationStateTask { get; set; }
+    @code {
+        private MachineCreateInputModel model = new MachineCreateInputModel();
+        private EditContext editContext;
+        private string? userName;
+        [CascadingParameter]
+        private Task<AuthenticationState> AuthenticationStateTask { get; set; }
 
-    protected override void OnInitialized()
-    {
-        this.editContext = new EditContext(model);
-    }
-
-    private async void HandleValidSubmit()
-    {
-        var isValid = editContext.Validate();
-
-        var authState = await AuthenticationStateTask;
-        this.userName = authState.User.Identity.Name;
-        model.ApplicationUserName = userName;
-        if (isValid)
+        protected override void OnInitialized()
         {
-            var machineId = await this.Api.CreateMachineAsync(model);
-            this.NavigationManager.NavigateTo($"/details/{machineId}");
+            this.editContext = new EditContext(model);
         }
-       
+
+        private async void HandleValidSubmit()
+        {
+            var isValid = editContext.Validate();
+
+            var authState = await AuthenticationStateTask;
+            this.userName = authState.User.Identity.Name;
+            model.ApplicationUserName = userName;
+            if (isValid)
+            {
+                var machineId = await this.Api.CreateMachineAsync(model);
+                this.NavigationManager.NavigateTo($"/details/{machineId}");
+            }
+
+        }
     }
-}

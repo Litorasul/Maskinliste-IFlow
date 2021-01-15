@@ -3,56 +3,64 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject IApiClient Api
 
-<h3>Machine List</h3>
-<AuthorizeView>
-    
-    <Authorized>
-       
-        @if (machines == null)
-        {
-            <p><em>Loading...</em></p>
-        }
-        else
-        {
-            <NavLink href="create">Create new Machine</NavLink>
-            @if (machines.Count == 0)
+    <div class="header">
+        <h3>Machine List</h3>
+    </div>
+    <AuthorizeView>
+
+        <Authorized>
+            <div class="content">
+            @if (machines == null)
             {
-                <h3>You don't have Machines.</h3>
+                <p><em>Loading...</em></p>
             }
             else
             {
-                <ul>
-                    @foreach (var machine in machines)
-                    {
-                        var url = $"details/{machine.Id}";
-                        <li><NavLink href="@url">@machine.Name</NavLink></li>
-                    }
-                </ul>
+
+                <NavLink class="btn btn-dark" href="create">Create new Machine</NavLink>
+                @if (machines.Count == 0)
+                {
+                    <h4 class="no-machine">You don't have Machines.</h4>
+                }
+                else
+                {
+                    <fieldset>
+                        <legend> Machines: </legend>
+                        <ul>
+                            @foreach (var machine in machines)
+                            {
+                                var url = $"details/{machine.Id}";
+                                <li><NavLink class="link" href="@url">@machine.Name</NavLink></li>
+                            }
+                        </ul>
+                    </fieldset>
+
+                    
+                }
+            }
+            </div>
+        </Authorized>
+    </AuthorizeView>
+
+    @code {
+
+        private IList<MachineViewModel> machines;
+        private string? user;
+        [CascadingParameter]
+        private Task<AuthenticationState> AuthenticationStateTask { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            try
+            {
+                var authState = await AuthenticationStateTask;
+                this.user = authState.User.Identity.Name;
+                this.machines = await this.Api.GetAllMachinesPerUserAsync(this.user);
+            }
+            catch (AccessTokenNotAvailableException exception)
+            {
+                exception.Redirect();
             }
         }
-        
-    </Authorized>
-</AuthorizeView>
 
-@code {
-
-    private IList<MachineViewModel> machines;
-    private string? user;
-    [CascadingParameter]
-    private Task<AuthenticationState> AuthenticationStateTask { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            var authState = await AuthenticationStateTask;
-            this.user = authState.User.Identity.Name;
-            this.machines = await this.Api.GetAllMachinesPerUserAsync(this.user);
-        }
-        catch (AccessTokenNotAvailableException exception)
-        {
-            exception.Redirect();
-        }
     }
-
-}

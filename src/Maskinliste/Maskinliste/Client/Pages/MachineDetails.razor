@@ -6,85 +6,94 @@
 @inject IApiClient Api
 @inject NavigationManager NavigationManager
 
-<h3>MachineDetails</h3>
-@if (machine == null)
-{
-    <p><em>Loading...</em></p>
-}
-else if (toUpdate)
-{
-    <EditForm Model="@model" OnValidSubmit="@HandleValidSubmit">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <p>
-            <label>
-                Machine Name:
-                <InputText @bind-Value="model.Name" />
-            </label>
-        </p>
-        <p>
-            <label>
-                Machine Details:
-                <InputTextArea @bind-Value="model.Details" />
-            </label>
-        </p>
-        <button class="btn btn-dark" type="submit">Submit</button>
-    </EditForm>
-}
-else
-{
-    <h1>@machine.Name</h1>
-    <p>@machine.Details</p>
-    <button class="btn btn-dark" @onclick="ToUpdate">Update</button>
-    <button class="btn btn-danger" @onclick="Delete">Delete Machine</button>
-}
-
-@code {
-    [Parameter]
-    public string Id { get; set; }
-
-    private MachineDetailsViewModel machine;
-    private MachineUpdateInputModel model = new MachineUpdateInputModel();
-    private EditContext editContext;
-
-    private bool toUpdate = false;
-
-    protected override async Task OnInitializedAsync()
+<div class="header">
+    <h3>Machine Details</h3>
+</div>
+<div class="content">
+    @if (machine == null)
     {
-        this.editContext = new EditContext(model);
+        <p><em>Loading...</em></p>
+    }
+    else if (toUpdate)
+    {
+        <EditForm Model="@model" OnValidSubmit="@HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <p>
+                <label>
+                    Machine Name:
+                    <InputText @bind-Value="model.Name" />
+                </label>
+            </p>
+            <p>
+                <label>
+                    Machine Details:
+                    <InputTextArea @bind-Value="model.Details" />
+                </label>
+            </p>
+            <button class="btn btn-dark" type="submit">Submit</button>
+        </EditForm>
+    }
+    else
+    {
+        <h3 class="name">@machine.Name</h3>
+        <fieldset>
+            <legend >Details: </legend>
+            <p>@machine.Details</p>
+        </fieldset>
+
         
-        try
+        <button class="btn btn-dark" @onclick="ToUpdate">Update Machine</button>
+        <button class="btn btn-danger" @onclick="Delete">Delete Machine</button>
+    }
+</div>
+
+    @code {
+        [Parameter]
+        public string Id { get; set; }
+
+        private MachineDetailsViewModel machine;
+        private MachineUpdateInputModel model = new MachineUpdateInputModel();
+        private EditContext editContext;
+
+        private bool toUpdate = false;
+
+        protected override async Task OnInitializedAsync()
         {
-            this.machine = await this.Api.GetMachineDetailsAsync(int.Parse(Id));
+            this.editContext = new EditContext(model);
+
+            try
+            {
+                this.machine = await this.Api.GetMachineDetailsAsync(int.Parse(Id));
+                this.model.Id = int.Parse(this.Id);
+                this.model.Name = this.machine.Name;
+                this.model.Details = this.machine.Details;
+            }
+            catch (AccessTokenNotAvailableException exception)
+            {
+                exception.Redirect();
+            }
+        }
+
+        private void ToUpdate()
+        {
+            this.toUpdate = true;
+        }
+
+        private async void HandleValidSubmit()
+        {
+            var isValid = editContext.Validate();
             this.model.Id = int.Parse(this.Id);
-            this.model.Name = this.machine.Name;
-            this.model.Details = this.machine.Details;
+            if (isValid)
+            {
+                await this.Api.UpdateMachineAsync(this.model);
+                this.NavigationManager.NavigateTo(this.NavigationManager.Uri, forceLoad: true);
+            }
         }
-        catch (AccessTokenNotAvailableException exception)
+
+        private async void Delete()
         {
-            exception.Redirect();
+            await this.Api.DeleteMachineAsync(int.Parse(Id));
+            this.NavigationManager.NavigateTo("/");
         }
     }
-
-    private void ToUpdate()
-    {
-        this.toUpdate = true;
-    }
-
-    private async void HandleValidSubmit()
-    {
-        var isValid = editContext.Validate();
-        this.model.Id = int.Parse(this.Id);
-        if (isValid)
-        {
-            await this.Api.UpdateMachineAsync(this.model);
-            this.NavigationManager.NavigateTo(this.NavigationManager.Uri, forceLoad:true);
-        }
-    }
-
-    private async void Delete()
-    {
-        await this.Api.DeleteMachineAsync(int.Parse(Id));
-        this.NavigationManager.NavigateTo("/");
-    }
-}

@@ -5,6 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pages\Create.razor.css" />
+    <None Remove="Pages\MachineDetails.razor.css" />
+    <None Remove="Shared\LoginDisplay.razor.css" />
+    <None Remove="Shared\MachineList.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Pages\Create.razor.css" />
+    <Content Include="Pages\MachineDetails.razor.css" />
+    <Content Include="Shared\LoginDisplay.razor.css" />
+    <Content Include="Shared\MachineList.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="5.0.2" />
